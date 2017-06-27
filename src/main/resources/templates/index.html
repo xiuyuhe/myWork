@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>首页</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link  type="text/css" rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" />
+
+    <script  type="text/javascript" src="../static/jquery/jquery.min.js" th:src="@{/jquery/jquery.min.js}"/>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"/>
+
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <th>pid</th>
+            <th>channel</th>
+            <th>m1</th>
+            <th>m2</th>
+            <th>emmc</th>
+            <th>cpu</th>
+            <th>osversion</th>
+            <th>server_time</th>
+            <th>event_key</th>
+            <th>pkgname</th>
+            <th>create_time</th>
+            <th>thedate</th>
+            <th>installer</th>
+        </tr>
+        <tr  th:each="hoax: ${hoaxes}">
+            <td th:text="${hoax.realPid}">pid`</td>
+            <td th:text="${hoax.realChannel}">channel</td>
+            <td th:text="${hoax.realM1}">m1</td>
+            <td th:text="${hoax.realM2}">m2</td>
+            <td th:text="${hoax.realEmmc}">emmc</td>
+            <td th:text="${hoax.realCpu}">cpu</td>
+            <td th:text="${hoax.realOsversion}">osversion</td>
+            <td th:text="${hoax.realServerTime!=null}?${#dates.format(hoax.realServerTime, 'dd-MM-yyyy')}">server_time</td>
+            <td th:text="${hoax.realEventKey}">event_key</td>
+            <td th:text="${hoax.realPkgname}">pkgname</td>
+            <td th:text="${hoax.realCreateTime}">create_time</td>
+            <td th:text="${hoax.thedate!=null} ? ${#dates.format(hoax.thedate, 'dd-MM-yyyy')}">thedate</td>
+            <td th:text="${hoax.realInstaller}">installer</td>
+        </tr>
+    </table>
+
+    <div th:fragment="paginationbar">
+        <div class="pagination pagination-centered">
+            <ul class="pagination">
+                <li  class="page-item" th:classappend="${page.firstPage}? 'disabled' : ''">
+                    <a class="page-link" th:if="${page.firstPage}">&larr; First</a>
+                    <a class="page-link" th:if="${not page.firstPage}" th:href="@{${page.url}(page=0,size=${size})}">&larr; First</a>
+                </li>
+                <li class="page-item" th:classappend="${page.hasPreviousPage}? '' : 'disabled'">
+                    <a class="page-link" th:if="${not page.hasPreviousPage}">&laquo;</a>
+                    <a class="page-link" th:if="${page.hasPreviousPage}" th:href="@{${page.url}(page=${page.number-2},size=${page.size})}" title="Go to previous page">&laquo;</a>
+                </li>
+                <li th:each="item : ${page.items}" class="page-item" th:classappend="${item.current}? 'active' : ''">
+                    <a class="page-link" th:if="${item.current}" th:text="${item.number}">1</a>
+                    <a class="page-link" th:if="${not item.current}" th:href="@{${page.url}(page=${item.number-1},size=${page.size})}"><span th:text="${item.number}">1</span></a>
+                </li>
+                <li class="page-item" th:classappend="${page.hasNextPage}? '' : 'disabled'">
+                    <a class="page-link" th:if="${not page.hasNextPage}">&raquo;</a>
+                    <a class="page-link" th:if="${page.hasNextPage}" th:href="@{${page.url}(page=${page.number},size=${page.size})}" title="Go to next page">&raquo;</a>
+                </li>
+                <li class="page-item" th:classappend="${page.lastPage}? 'disabled' : ''">
+                    <a class="page-link" th:if="${page.lastPage}">Last &rarr;</a>
+                    <a class="page-link" th:if="${not page.lastPage}" th:href="@{${page.url}(page=${page.totalPages-1},size=${page.size})}">Last &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
