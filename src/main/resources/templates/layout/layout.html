@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="zh-CN" xmlns:layout="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Demo</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link  type="text/css" rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" />
 </head>
 <body>
     <div th:replace="fragments/header :: header"></div>
-    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <!--<div th:replace="fragments/sidebar :: sidebar"></div>-->
     <div layout:fragment="content">
         Main Content Goes Here
     </div>
-    <div th:include="components/footer :: footer"></div>
+    <div th:include="fragments/footer :: footer"></div>
 </body>
 <script  type="text/javascript" src="../../static/jquery/jquery.min.js" th:src="@{/jquery/jquery.min.js}"/>
-<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script type="text/javascript" src="../../static/bootstrap/js/tether.min.js" th:src="@{/bootstrap/js/tether.min.js}"/>
 <script type="text/javascript" src="../../static/bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"/>
 </html>

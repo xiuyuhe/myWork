@@ -33,6 +33,7 @@ public class TpRealHoaxes implements Serializable {
 
     private String realInstaller;
 
+
     private static final long serialVersionUID = 1L;
 
     public Integer getRealPid() {

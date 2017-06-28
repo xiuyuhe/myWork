@@ -1,6 +1,5 @@
 package com.qihoo360os.mapper;
 
-import com.qihoo360os.entity.RealHoaxesMB;
 import com.qihoo360os.model.TpRealHoaxes;
 import com.qihoo360os.model.TpRealHoaxesExample;
 import java.util.List;
@@ -9,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Mapper
 public interface TpRealHoaxesMapper {
@@ -37,5 +35,5 @@ public interface TpRealHoaxesMapper {
 
     @Select("SELECT * FROM tp_real_hoaxes")
     @ResultMap("BaseResultMap")
-    List<RealHoaxesMB> findAll();
+    List<TpRealHoaxes> selectAll();
 }

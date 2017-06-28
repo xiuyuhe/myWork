@@ -1,8 +1,0 @@
-com\qihoo360os\common\PageWrapper$PageItem.class
-com\qihoo360os\controller\RealHoaxesController.class
-com\qihoo360os\service\RealHoaxesService.class
-com\qihoo360os\repository\RealHoaxesRepository.class
-com\qihoo360os\common\PageWrapper.class
-com\qihoo360os\DemoApplication.class
-com\qihoo360os\entity\RealHoaxes.class
-com\qihoo360os\service\impl\RealHoaxesServiceImpl.class

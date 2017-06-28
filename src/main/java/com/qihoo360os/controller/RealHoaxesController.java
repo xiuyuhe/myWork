@@ -1,12 +1,10 @@
 package com.qihoo360os.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qihoo360os.common.MybatisPageWrapper;
 import com.qihoo360os.common.PageWrapper;
 import com.qihoo360os.entity.RealHoaxes;
-import com.qihoo360os.entity.RealHoaxesMB;
-import com.qihoo360os.mapper.RealHoaxesMapper;
-import com.qihoo360os.mapper.TpRealHoaxesMapper;
+import com.qihoo360os.model.TpRealHoaxes;
 import com.qihoo360os.service.RealHoaxesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,34 +25,30 @@ import java.util.List;
 public class RealHoaxesController {
 
     public static final int  NAVIGATEPAGES = 5 ;
+
     @Autowired
     private RealHoaxesService realHoaxesService;
-    @Autowired
-    private TpRealHoaxesMapper realHoaxesMapper;
+
     private int navigatePages = NAVIGATEPAGES;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "with-jpa", method = RequestMethod.GET)
     public String getRealHoaxesByPageable(Model model,  @PageableDefault(value = 20) Pageable pageable){
         PageWrapper<RealHoaxes> page = new PageWrapper<>(realHoaxesService.findAll(pageable), "/real-hoaxes");
         model.addAttribute("hoaxes", page.getContent());
         model.addAttribute("page", page);
-        return "index";
+        return "/content/jpa";
     }
 
-    @RequestMapping(value = "mybatis", method = RequestMethod.GET)
-    public void getRealHoaxesByPageableMB(){
-        List<RealHoaxesMB> realHoaxes = realHoaxesMapper.findAll();
-        System.out.println("");
-    }
-    @RequestMapping("mybatis/page")
-    public String findUserPageFromMybatis(Model model, Integer page, Integer size) {
-        page = page == null ? 1 : page;
-        size = size == null ? 20: size;
-        PageHelper.startPage(page, size);
-        List<RealHoaxesMB> hoaxes = realHoaxesMapper.findAll();
-        PageInfo pageInfo = new PageInfo(hoaxes, navigatePages);
+    @RequestMapping("with-mybatis")
+    public String findUserPageFromMybatis(Model model, MybatisPageWrapper pageWrapper) {
+        pageWrapper.startPage();
+        List<TpRealHoaxes> hoaxes = realHoaxesService.selectAll();
+        PageInfo pageInfo = pageWrapper.buildPageInfo(hoaxes);
         model.addAttribute("hoaxes", hoaxes);
         model.addAttribute("page", pageInfo);
-        return "mybatis";
+        //status 200 /404 /500 ,msg , result(Object , JSON), SIZE , PROXY
+
+
+        return "content/mybatis";
     }
 }

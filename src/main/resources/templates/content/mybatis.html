@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head >
-    <title>首页</title>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link type="text/css" rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" />
-
-    <script type="text/javascript" src="../static/jquery/jquery.min.js" th:src="@{/jquery/jquery.min.js}"/>
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-    <script type="text/javascript" src="../static/bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"/>
-
-</head>
+<!doctype html>
+<html layout:decorator="layout/layout" th:with="currentPage='home'"
+      xmlns:layout="http://www.thymeleaf.org/" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div layout:fragment="content">
     <table class="table">
         <tr>
             <th>pid</th>
@@ -51,23 +41,23 @@
             <ul class="pagination">
                 <li  class="page-item" th:classappend="${page.isFirstPage}? 'disabled' : ''">
                     <a class="page-link" th:if="${page.isFirstPage}">&larr; First</a>
-                    <a class="page-link" th:if="${not page.isFirstPage}" th:href="@{http://localhost:8080/real-hoaxes/mybatis/page(page=1,size=${size})}">&larr; First</a>
+                    <a class="page-link" th:if="${not page.isFirstPage}" th:href="@{http://localhost:8080/real-hoaxes/with-mybatis/(page=1,size=${size})}">&larr; First</a>
                 </li>
                 <li class="page-item" th:classappend="${page.hasPreviousPage}? '' : 'disabled'">
                     <a class="page-link" th:if="${not page.hasPreviousPage}">&laquo;</a>
-                    <a class="page-link" th:if="${page.hasPreviousPage}" th:href="@{http://localhost:8080/real-hoaxes/mybatis/page(page=${page.pageNum-1},size=${page.size})}" title="Go to previous page">&laquo;</a>
+                    <a class="page-link" th:if="${page.hasPreviousPage}" th:href="@{http://localhost:8080/real-hoaxes/with-mybatis(page=${page.pageNum-1},size=${page.size})}" title="Go to previous page">&laquo;</a>
                 </li>
                 <li th:each="pageNo : ${page.navigatepageNums}" class="page-item" th:classappend="${pageNo == page.pageNum}? 'active' : ''">
                     <a class="page-link" th:if="${pageNo == page.pageNum}" th:text="${pageNo}">1</a>
-                    <a class="page-link" th:if="${pageNo != page.pageNum}" th:href="@{http://localhost:8080/real-hoaxes/mybatis/page(page=${pageNo},size=${page.size})}"><span th:text="${pageNo}">1</span></a>
+                    <a class="page-link" th:if="${pageNo != page.pageNum}" th:href="@{http://localhost:8080/real-hoaxes/with-mybatis(page=${pageNo},size=${page.size})}"><span th:text="${pageNo}">1</span></a>
                 </li>
                 <li class="page-item" th:classappend="${page.hasNextPage}? '' : 'disabled'">
                     <a class="page-link" th:if="${not page.hasNextPage}">&raquo;</a>
-                    <a class="page-link" th:if="${page.hasNextPage}" th:href="@{http://localhost:8080/real-hoaxes/mybatis/page(page=${page.pageNum+1},size=${page.size})}" title="Go to next page">&raquo;</a>
+                    <a class="page-link" th:if="${page.hasNextPage}" th:href="@{http://localhost:8080/real-hoaxes/with-mybatis(page=${page.pageNum+1},size=${page.size})}" title="Go to next page">&raquo;</a>
                 </li>
                 <li class="page-item" th:classappend="${page.isLastPage}? 'disabled' : ''">
                     <a class="page-link" th:if="${page.isLastPage}">Last &rarr;</a>
-                    <a class="page-link" th:if="${not page.isLastPage}" th:href="@{http://localhost:8080/real-hoaxes/mybatis/page(page=${page.total},size=${page.size})}">Last &rarr;</a>
+                    <a class="page-link" th:if="${not page.isLastPage}" th:href="@{http://localhost:8080/real-hoaxes/with-mybatis(page=${page.total},size=${page.size})}">Last &rarr;</a>
                 </li>
             </ul>
         </div>
