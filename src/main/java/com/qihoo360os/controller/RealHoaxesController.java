@@ -1,25 +1,21 @@
 package com.qihoo360os.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qihoo360os.common.PageWrapper;
 import com.qihoo360os.entity.RealHoaxes;
 import com.qihoo360os.entity.RealHoaxesMB;
 import com.qihoo360os.mapper.RealHoaxesMapper;
-import com.qihoo360os.repository.RealHoaxesRepository;
+import com.qihoo360os.mapper.TpRealHoaxesMapper;
 import com.qihoo360os.service.RealHoaxesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -34,7 +30,7 @@ public class RealHoaxesController {
     @Autowired
     private RealHoaxesService realHoaxesService;
     @Autowired
-    private RealHoaxesMapper realHoaxesMapper;
+    private TpRealHoaxesMapper realHoaxesMapper;
     private int navigatePages = NAVIGATEPAGES;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
