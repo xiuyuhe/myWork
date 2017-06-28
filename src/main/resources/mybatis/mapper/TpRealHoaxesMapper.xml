@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qihoo360os.mapper.TpRealHoaxesMapper">
+  <resultMap id="BaseResultMap" type="com.qihoo360os.model.TpRealHoaxes">
+    <id column="real_pid" jdbcType="INTEGER" property="realPid" />
+    <result column="real_channel" jdbcType="VARCHAR" property="realChannel" />
+    <result column="real_m1" jdbcType="VARCHAR" property="realM1" />
+    <result column="real_m2" jdbcType="VARCHAR" property="realM2" />
+    <result column="real_emmc" jdbcType="VARCHAR" property="realEmmc" />
+    <result column="real_cpu" jdbcType="VARCHAR" property="realCpu" />
+    <result column="real_osversion" jdbcType="VARCHAR" property="realOsversion" />
+    <result column="real_server_time" jdbcType="TIMESTAMP" property="realServerTime" />
+    <result column="real_event_key" jdbcType="VARCHAR" property="realEventKey" />
+    <result column="real_pkgname" jdbcType="VARCHAR" property="realPkgname" />
+    <result column="real_create_time" jdbcType="VARCHAR" property="realCreateTime" />
+    <result column="thedate" jdbcType="TIMESTAMP" property="thedate" />
+    <result column="real_installer" jdbcType="VARCHAR" property="realInstaller" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    real_pid, real_channel, real_m1, real_m2, real_emmc, real_cpu, real_osversion, real_server_time, 
+    real_event_key, real_pkgname, real_create_time, thedate, real_installer
+  </sql>
+  <select id="selectByExample" parameterType="com.qihoo360os.model.TpRealHoaxesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tp_real_hoaxes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tp_real_hoaxes
+    where real_pid = #{realPid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tp_real_hoaxes
+    where real_pid = #{realPid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qihoo360os.model.TpRealHoaxesExample">
+    delete from tp_real_hoaxes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qihoo360os.model.TpRealHoaxes">
+    insert into tp_real_hoaxes (real_pid, real_channel, real_m1, 
+      real_m2, real_emmc, real_cpu, 
+      real_osversion, real_server_time, real_event_key, 
+      real_pkgname, real_create_time, thedate, 
+      real_installer)
+    values (#{realPid,jdbcType=INTEGER}, #{realChannel,jdbcType=VARCHAR}, #{realM1,jdbcType=VARCHAR}, 
+      #{realM2,jdbcType=VARCHAR}, #{realEmmc,jdbcType=VARCHAR}, #{realCpu,jdbcType=VARCHAR}, 
+      #{realOsversion,jdbcType=VARCHAR}, #{realServerTime,jdbcType=TIMESTAMP}, #{realEventKey,jdbcType=VARCHAR}, 
+      #{realPkgname,jdbcType=VARCHAR}, #{realCreateTime,jdbcType=VARCHAR}, #{thedate,jdbcType=TIMESTAMP}, 
+      #{realInstaller,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qihoo360os.model.TpRealHoaxes">
+    insert into tp_real_hoaxes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="realPid != null">
+        real_pid,
+      </if>
+      <if test="realChannel != null">
+        real_channel,
+      </if>
+      <if test="realM1 != null">
+        real_m1,
+      </if>
+      <if test="realM2 != null">
+        real_m2,
+      </if>
+      <if test="realEmmc != null">
+        real_emmc,
+      </if>
+      <if test="realCpu != null">
+        real_cpu,
+      </if>
+      <if test="realOsversion != null">
+        real_osversion,
+      </if>
+      <if test="realServerTime != null">
+        real_server_time,
+      </if>
+      <if test="realEventKey != null">
+        real_event_key,
+      </if>
+      <if test="realPkgname != null">
+        real_pkgname,
+      </if>
+      <if test="realCreateTime != null">
+        real_create_time,
+      </if>
+      <if test="thedate != null">
+        thedate,
+      </if>
+      <if test="realInstaller != null">
+        real_installer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="realPid != null">
+        #{realPid,jdbcType=INTEGER},
+      </if>
+      <if test="realChannel != null">
+        #{realChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="realM1 != null">
+        #{realM1,jdbcType=VARCHAR},
+      </if>
+      <if test="realM2 != null">
+        #{realM2,jdbcType=VARCHAR},
+      </if>
+      <if test="realEmmc != null">
+        #{realEmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="realCpu != null">
+        #{realCpu,jdbcType=VARCHAR},
+      </if>
+      <if test="realOsversion != null">
+        #{realOsversion,jdbcType=VARCHAR},
+      </if>
+      <if test="realServerTime != null">
+        #{realServerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realEventKey != null">
+        #{realEventKey,jdbcType=VARCHAR},
+      </if>
+      <if test="realPkgname != null">
+        #{realPkgname,jdbcType=VARCHAR},
+      </if>
+      <if test="realCreateTime != null">
+        #{realCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="thedate != null">
+        #{thedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realInstaller != null">
+        #{realInstaller,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qihoo360os.model.TpRealHoaxesExample" resultType="java.lang.Long">
+    select count(*) from tp_real_hoaxes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tp_real_hoaxes
+    <set>
+      <if test="record.realPid != null">
+        real_pid = #{record.realPid,jdbcType=INTEGER},
+      </if>
+      <if test="record.realChannel != null">
+        real_channel = #{record.realChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realM1 != null">
+        real_m1 = #{record.realM1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realM2 != null">
+        real_m2 = #{record.realM2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realEmmc != null">
+        real_emmc = #{record.realEmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realCpu != null">
+        real_cpu = #{record.realCpu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realOsversion != null">
+        real_osversion = #{record.realOsversion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realServerTime != null">
+        real_server_time = #{record.realServerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realEventKey != null">
+        real_event_key = #{record.realEventKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realPkgname != null">
+        real_pkgname = #{record.realPkgname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realCreateTime != null">
+        real_create_time = #{record.realCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thedate != null">
+        thedate = #{record.thedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realInstaller != null">
+        real_installer = #{record.realInstaller,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tp_real_hoaxes
+    set real_pid = #{record.realPid,jdbcType=INTEGER},
+      real_channel = #{record.realChannel,jdbcType=VARCHAR},
+      real_m1 = #{record.realM1,jdbcType=VARCHAR},
+      real_m2 = #{record.realM2,jdbcType=VARCHAR},
+      real_emmc = #{record.realEmmc,jdbcType=VARCHAR},
+      real_cpu = #{record.realCpu,jdbcType=VARCHAR},
+      real_osversion = #{record.realOsversion,jdbcType=VARCHAR},
+      real_server_time = #{record.realServerTime,jdbcType=TIMESTAMP},
+      real_event_key = #{record.realEventKey,jdbcType=VARCHAR},
+      real_pkgname = #{record.realPkgname,jdbcType=VARCHAR},
+      real_create_time = #{record.realCreateTime,jdbcType=VARCHAR},
+      thedate = #{record.thedate,jdbcType=TIMESTAMP},
+      real_installer = #{record.realInstaller,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qihoo360os.model.TpRealHoaxes">
+    update tp_real_hoaxes
+    <set>
+      <if test="realChannel != null">
+        real_channel = #{realChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="realM1 != null">
+        real_m1 = #{realM1,jdbcType=VARCHAR},
+      </if>
+      <if test="realM2 != null">
+        real_m2 = #{realM2,jdbcType=VARCHAR},
+      </if>
+      <if test="realEmmc != null">
+        real_emmc = #{realEmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="realCpu != null">
+        real_cpu = #{realCpu,jdbcType=VARCHAR},
+      </if>
+      <if test="realOsversion != null">
+        real_osversion = #{realOsversion,jdbcType=VARCHAR},
+      </if>
+      <if test="realServerTime != null">
+        real_server_time = #{realServerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realEventKey != null">
+        real_event_key = #{realEventKey,jdbcType=VARCHAR},
+      </if>
+      <if test="realPkgname != null">
+        real_pkgname = #{realPkgname,jdbcType=VARCHAR},
+      </if>
+      <if test="realCreateTime != null">
+        real_create_time = #{realCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="thedate != null">
+        thedate = #{thedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realInstaller != null">
+        real_installer = #{realInstaller,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where real_pid = #{realPid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qihoo360os.model.TpRealHoaxes">
+    update tp_real_hoaxes
+    set real_channel = #{realChannel,jdbcType=VARCHAR},
+      real_m1 = #{realM1,jdbcType=VARCHAR},
+      real_m2 = #{realM2,jdbcType=VARCHAR},
+      real_emmc = #{realEmmc,jdbcType=VARCHAR},
+      real_cpu = #{realCpu,jdbcType=VARCHAR},
+      real_osversion = #{realOsversion,jdbcType=VARCHAR},
+      real_server_time = #{realServerTime,jdbcType=TIMESTAMP},
+      real_event_key = #{realEventKey,jdbcType=VARCHAR},
+      real_pkgname = #{realPkgname,jdbcType=VARCHAR},
+      real_create_time = #{realCreateTime,jdbcType=VARCHAR},
+      thedate = #{thedate,jdbcType=TIMESTAMP},
+      real_installer = #{realInstaller,jdbcType=VARCHAR}
+    where real_pid = #{realPid,jdbcType=INTEGER}
+  </update>
+</mapper>
