@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface RealHoaxesMapper {
 
-    @Select("SELECT * FROM tp_real_hoaxes limit 10")
+    @Select("SELECT * FROM tp_real_hoaxes")
     List<RealHoaxesMB> findAll();
 
 }
