@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by i-hexiuyu on 2017/6/27.
  */
-@Service
+//@Service
 @Transactional
 public class RealHoaxesServiceImpl implements RealHoaxesService {
 
