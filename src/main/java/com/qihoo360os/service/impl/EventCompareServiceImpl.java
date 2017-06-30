@@ -33,11 +33,14 @@ public class EventCompareServiceImpl {
 
     }
 
-
+    /**
+     *  降序排列 Hash Map
+     * @param result
+     * @return 排序好的List<Map>
+     */
     private List<Map.Entry<EventSequence, ValueObject>> sortByCountDesc(HashMap<EventSequence, ValueObject> result) {
-        // 降序比较器
         Comparator<Map.Entry<EventSequence, ValueObject>> valueComparator = (o1, o2) -> o2.getValue().getCount()-o1.getValue().getCount();
-        List<Map.Entry<EventSequence, ValueObject>> resultList = new ArrayList<Map.Entry<EventSequence,ValueObject>>(result.entrySet());
+        List<Map.Entry<EventSequence, ValueObject>> resultList = new ArrayList<>(result.entrySet());
         Collections.sort(resultList, valueComparator);
         System.out.println("结果最大值为: "+ resultList.get(0).getValue().getCount());
         return resultList;
@@ -105,7 +108,6 @@ public class EventCompareServiceImpl {
             return columns[12]+"*"+columns[13];
     }
 
-    /***************/
 
     /**
      * 得到所有的交集序列
@@ -150,7 +152,7 @@ public class EventCompareServiceImpl {
                     m2s.add(m2Map.getKey());
                 }
             }
-            if(count > 2)
+            if(count > 3)
                 resultMap.put(eventSequence, new ValueObject(eventSequence,count,m2s));
         }
         return resultMap;
@@ -262,8 +264,15 @@ public class EventCompareServiceImpl {
         }
     }
 
-    public  class EventSequence{
-        Set<String> sequences ;
+    /**
+     * 这里开始以为 hashset 没有重写 hashcode 和 equal 方法，所以封装 以 EventSequence作为 结果集的 key
+     *  后来发现 set 本身就是按照 元素重写了 上面两个方法。
+     */
+    public static class EventSequence{
+        private  Set<String> sequences ;
+
+        public EventSequence() {
+        }
 
         public EventSequence(Set<String> sequences) {
             this.sequences = sequences;
@@ -271,12 +280,19 @@ public class EventCompareServiceImpl {
 
         @Override
         public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this,Arrays.asList(sequences));
+//            return HashCodeBuilder.reflectionHashCode(this,Arrays.asList(sequences));
+            return sequences.hashCode();
         }
 
         @Override
         public boolean equals(Object obj) {
-            return EqualsBuilder.reflectionEquals(this, obj, Arrays.asList(sequences));
+//            return EqualsBuilder.reflectionEquals(this, obj, Arrays.asList(sequences));
+            if(obj instanceof EventSequence){
+                EventSequence seq = (EventSequence) obj;
+                return this.sequences.equals(seq.getSequences());
+            } else{
+                return false;
+            }
         }
 
         public Set<String> getSequences() {
