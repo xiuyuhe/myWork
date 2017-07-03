@@ -1,5 +1,10 @@
 package com.qihoo360os.common.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -31,6 +36,32 @@ public class AmountStatisticsTool<T> {
     public static final String MONTH_FORMAT_STRING = "yyyy-MM";
 
     private Calendar calendar = Calendar.getInstance();
+    private JsonNodeFactory jsonNodeFactory = JsonNodeFactory.instance;
+    private ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     *   参数 查看 {@link  AmountStatisticsTool#countAmount(String,String,Integer,Map) }.
+     */
+    public String countAmountApi(String start, String end, Integer countType, Map<String, List<T>> resourceMap){
+        ObjectNode rootNode = jsonNodeFactory.objectNode();
+        Map<String, Integer> result = new HashMap<>();
+        String msg ="";
+        int status = 200;
+        int size = 0;
+        try{
+            result = countAmount(start, end, countType, resourceMap);
+            size = result.size();
+        } catch (AmountStatisticsExceptions amountStatisticsExceptions) {
+            msg = amountStatisticsExceptions.getMessage();
+            status = 400;
+        }
+        JsonNode resultNode = mapper.convertValue(result, JsonNode.class);
+        rootNode.put("status",status);
+        rootNode.put("msg", msg);
+        rootNode.set("result", resultNode);
+        rootNode.put("size", size);
+        return rootNode.toString();
+    }
 
     /**
      *  按照指定方法，统计资源数量
@@ -48,7 +79,7 @@ public class AmountStatisticsTool<T> {
         Date startTime = translateString2Date(start, countType);
         Date endTime = addOneCycle(translateString2Date(end, countType), countType);
         checkCountPeriod(startTime, endTime, countType);
-        HashMap<String, Integer> resultMap = accountDate(startTime, endTime, resourceMap, countType, resourceDateType);
+        Map<String, Integer> resultMap = accountDate(startTime, endTime, resourceMap, countType, resourceDateType);
         return resultMap;
 
     }
@@ -112,8 +143,8 @@ public class AmountStatisticsTool<T> {
      * @param resourceType 源文件的时间类型
      * @return {DateString : count ...}
      */
-    private HashMap<String, Integer> accountDate(Date startTime, Date endTime, Map<String, List<T>> resourceMap, int staticFlag, int resourceType) throws AmountStatisticsExceptions {
-        HashMap<String, Integer> resultMap = new HashMap<>();
+    private Map<String, Integer> accountDate(Date startTime, Date endTime, Map<String, List<T>> resourceMap, int staticFlag, int resourceType) throws AmountStatisticsExceptions {
+        TreeMap<String, Integer> resultMap = new TreeMap<>();
         for (Map.Entry<String, List<T>> entry : resourceMap.entrySet()) {
             Date date;
             date = stringToDate(entry.getKey(), resourceType);
@@ -219,4 +250,12 @@ public class AmountStatisticsTool<T> {
             super(message);
         }
     }
+
+//    private static class ResponseBody {
+//        private ObjectNode response = JsonNodeFactory.instance.objectNode();
+//        private int status;
+//        private int size;
+//        private String msg;
+//        private
+//    }
 }

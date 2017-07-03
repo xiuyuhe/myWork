@@ -13,7 +13,7 @@ import java.util.*;
 public class AmountStatisticsTeest {
 
     @Test
-    public void testDate(){
+    public void testDate() {
         try {
             AmountStatisticsTool<Object> tool = new AmountStatisticsTool<>();
 
@@ -29,28 +29,24 @@ public class AmountStatisticsTeest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         AmountStatisticsTool tool = new AmountStatisticsTool();
-        String startTime = "2016--1";
-        String endTime = "2016--3";
+        String startTime = "2017-01-01";
+        String endTime = "2017-03-11";
         HashMap<String, List<String>> map = new HashMap<>();
-        String[] day = {"A"};
-        map.put("2016-01-01 01:10:10", Arrays.asList(day));
-        map.put("2017-01-01 01:12:10", Arrays.asList(day));
-        map.put("2017-01-01 01:13:10", Arrays.asList(day));
-        map.put("2017-01-03 02:10:10", Arrays.asList(day));
-        map.put("2017-01-03 02:11:10", Arrays.asList(day));
-        map.put("2017-01-04 02:11:10", Arrays.asList(day));
-        map.put("2017-01-04 02:12:10", Arrays.asList(day));
-        map.put("2017-01-11 01:10:10", Arrays.asList(day));
-        map.put("2017-02-11 01:10:10", Arrays.asList(day));
-        map.put("2017-03-11 01:10:10", Arrays.asList(day));
-        try {
-            Map<String, Integer> result = tool.countAmount(startTime,endTime,AmountStatisticsTool.COUNT_BY_WEEK,map);
-            System.out.println(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        map.put("2017-01-01 01:10:10", Arrays.asList("1","2","3"));
+        map.put("2017-01-01 01:12:10", Arrays.asList("1","2"));
+        map.put("2017-01-01 01:13:10", Arrays.asList("1"));
+        map.put("2017-01-03 02:10:10", Arrays.asList("1","2"));
+        map.put("2017-01-03 02:11:10", Arrays.asList("1","2","3","4"));
+        map.put("2017-01-04 02:11:10", Arrays.asList("1"));
+        map.put("2017-01-04 02:12:10", Arrays.asList("1","2"));
+        map.put("2017-01-11 01:10:10", Arrays.asList("1"));
+        map.put("2017-02-11 01:10:10", Arrays.asList("1","2"));
+        map.put("2017-03-11 01:10:10", Arrays.asList("1","2","3"));
+        String result = tool.countAmountApi(startTime, endTime, AmountStatisticsTool.COUNT_BY_DAY, map);
+        System.out.println(result);
 
     }
 
