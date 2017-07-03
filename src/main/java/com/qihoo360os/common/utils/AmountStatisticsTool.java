@@ -36,31 +36,22 @@ public class AmountStatisticsTool<T> {
     public static final String MONTH_FORMAT_STRING = "yyyy-MM";
 
     private Calendar calendar = Calendar.getInstance();
-    private JsonNodeFactory jsonNodeFactory = JsonNodeFactory.instance;
-    private ObjectMapper mapper = new ObjectMapper();
 
     /**
      *   参数 查看 {@link  AmountStatisticsTool#countAmount(String,String,Integer,Map) }.
      */
     public String countAmountApi(String start, String end, Integer countType, Map<String, List<T>> resourceMap){
-        ObjectNode rootNode = jsonNodeFactory.objectNode();
         Map<String, Integer> result = new HashMap<>();
-        String msg ="";
-        int status = 200;
-        int size = 0;
+        ResponseBody responseBody = new ResponseBody();
         try{
             result = countAmount(start, end, countType, resourceMap);
-            size = result.size();
+            responseBody.setSize(result.size());
         } catch (AmountStatisticsExceptions amountStatisticsExceptions) {
-            msg = amountStatisticsExceptions.getMessage();
-            status = 400;
+            responseBody.setMsg( amountStatisticsExceptions.getMessage());
+            responseBody.setStatus(400);
         }
-        JsonNode resultNode = mapper.convertValue(result, JsonNode.class);
-        rootNode.put("status",status);
-        rootNode.put("msg", msg);
-        rootNode.set("result", resultNode);
-        rootNode.put("size", size);
-        return rootNode.toString();
+        responseBody.setResult(result);
+        return responseBody.toString();
     }
 
     /**
@@ -95,7 +86,7 @@ public class AmountStatisticsTool<T> {
     private void checkCountPeriod(Date startTime, Date endTime, Integer countType) throws AmountStatisticsExceptions {
         if (countType == COUNT_BY_WEEK || countType == COUNT_BY_DAY){int days = (int) ((endTime.getTime() - startTime.getTime()) / (1000 * 3600 * 24));
             if(days > 90)
-                throw new AmountStatisticsExceptions("按周或按天查询，不能大于三个月");
+                throw new AmountStatisticsExceptions("按周或按天查询，不能大于90天");
         }
         if(!startTime.before(endTime)){
             throw new AmountStatisticsExceptions("起始时间不能晚于终止时间");
@@ -110,7 +101,7 @@ public class AmountStatisticsTool<T> {
      */
     private void checkCountType(Integer countType, Integer resourceDateType) throws AmountStatisticsExceptions {
         if (resourceDateType == SOURCE_DATE_DAY && countType == COUNT_BY_DAY)
-            throw new AmountStatisticsExceptions("不能以该统计方式该格式源数据！");
+            throw new AmountStatisticsExceptions("源数据格式为 'yyyy-MM-dd', 不能以天为单位统计！");
     }
 
     /**
@@ -196,7 +187,7 @@ public class AmountStatisticsTool<T> {
                     break;
             }
         } catch (ParseException e) {
-            throw new AmountStatisticsExceptions(" 源数据 转换 错误");
+            throw new AmountStatisticsExceptions(" 源数据 转换 错误！ 源数据日期类型为：'"+DAY_FORMAT_STRING+"' 或 '"+SECOND_FORMAT_STRING+"'");
         }
         return date;
     }
@@ -222,7 +213,7 @@ public class AmountStatisticsTool<T> {
                 throw new Exception();
             }
         } catch (Exception e) {
-            throw new AmountStatisticsExceptions("请输入合法的起止时间！");
+            throw new AmountStatisticsExceptions("请输入合法的起止时间！日 :'"+ DAY_FORMAT_STRING +"'; 周:'"+ WEEK_FORMAT_STRING +"', 月:'"+MONTH_FORMAT_STRING+"'");
         }
         return date;
     }
@@ -251,11 +242,72 @@ public class AmountStatisticsTool<T> {
         }
     }
 
-//    private static class ResponseBody {
-//        private ObjectNode response = JsonNodeFactory.instance.objectNode();
-//        private int status;
-//        private int size;
-//        private String msg;
-//        private
-//    }
+    private static class ResponseBody {
+        private ObjectNode response = JsonNodeFactory.instance.objectNode();
+        private ObjectMapper mapper = new ObjectMapper();
+        private int status = 200;
+        private int size = 0;
+        private String msg = "";
+        private Object result ;
+        private boolean proxy = false;
+
+        public ResponseBody() {
+            this.setStatus(status);
+            this.setMsg(msg);
+            this.setProxy(proxy);
+            this.setResult(null);
+            this.setSize(0);
+        }
+
+        @Override
+        public String toString() {
+            return response.toString();
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+            response.put("status",status);
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+            response.put("size", size);
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+            response.put("msg", msg);
+        }
+
+        public Object getResult() {
+            return result;
+        }
+
+        public void setResult(Object result) {
+            this.result = result;
+            JsonNode resultNode = mapper.convertValue(result, JsonNode.class);
+            response.set("result", resultNode);
+        }
+
+        public boolean isProxy() {
+            return proxy;
+        }
+
+        public void setProxy(boolean proxy) {
+            response.put("proxy", proxy);
+            this.proxy = proxy;
+        }
+    }
 }
